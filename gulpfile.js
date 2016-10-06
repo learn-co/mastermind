@@ -65,8 +65,8 @@ gulp.task('inject-packages', function() {
     fs.writeFileSync(packageJSON, JSON.stringify(packages, null, '  '))
   }
 
-  injectPackage('learn-ide', '0.0.1')
-  injectPackage('learn-ide-tree', '0.0.1')
+  injectPackage('mastermind', '0.0.1')
+  injectPackage('mirage', '0.0.1')
 })
 
 gulp.task('build', function(done) {
