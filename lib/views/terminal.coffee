@@ -4,7 +4,7 @@ ipc       = require 'ipc'
 Clipboard = require 'clipboard'
 remote    = require 'remote'
 Menu      = remote.require 'menu'
-TerminalWrapper = require './terminal-wrapper.coffee'
+TerminalWrapper = require './terminal-wrapper'
 
 module.exports =
 class TerminalView extends View

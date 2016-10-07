@@ -10,7 +10,7 @@ StatusView = require './views/status'
 Updater = require './updater'
 LocalhostProxy = require './localhost-proxy'
 bus = require('./event-bus')()
-Notifier = require './notifier.coffee'
+Notifier = require './notifier'
 atomHelper = require './atom-helper'
 
 require('dotenv').config({
@@ -35,7 +35,7 @@ WS_SERVER_URL = (->
 
 module.exports =
   activate: (state) ->
-    require('./auth.coffee')
+    require('./auth')
 
     @oauthToken = atom.config.get('learn-ide.oauthToken')
     @vmPort = atom.config.get('learn-ide.vmPort')
