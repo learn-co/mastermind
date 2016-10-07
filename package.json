@@ -2,7 +2,7 @@
   "name": "mastermind",
   "main": "./lib/learn-ide",
   "urlMain": "./lib/url-handler",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "atomVersion": "1.10.2",
   "description": "An integrated development environment for use with Learn.co",
   "scripts": {

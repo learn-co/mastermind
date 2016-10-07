@@ -8,7 +8,7 @@ TerminalView = require './views/terminal'
 StatusView = require './views/status'
 {EventEmitter} = require 'events'
 Updater = require './updater'
-LocalhostProxy = require './localhost-proxy'
+# LocalhostProxy = require './localhost-proxy'
 bus = require('./event-bus')()
 Notifier = require './notifier'
 atomHelper = require './atom-helper'
@@ -44,7 +44,7 @@ module.exports =
     @activateStatusView(state)
     @activateEventHandlers()
     @activateSubscriptions()
-    @activateLocalhostProxy()
+    # @activateLocalhostProxy()
     @activateNotifier()
     @activateUpdater()
 
@@ -113,8 +113,8 @@ module.exports =
 
 
   activateLocalhostProxy: ->
-    @localhostProxy = new LocalhostProxy(@vmPort)
-    @localhostProxy.activate()
+    # @localhostProxy = new LocalhostProxy(@vmPort)
+    # @localhostProxy.activate()
 
   activateNotifier: ->
     @notifier = new Notifier(@oauthToken)
