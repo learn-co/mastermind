@@ -78,7 +78,7 @@ gulp.task('inject-packages', function() {
 })
 
 gulp.task('build', function(done) {
-  runSequence('reset', 'download-atom', 'build-atom', done)
+  runSequence('reset', 'download-atom', 'inject-packages', 'build-atom', done)
 })
 
 gulp.task('clone', function() {
