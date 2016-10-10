@@ -8,7 +8,6 @@ TerminalView = require './views/terminal'
 StatusView = require './views/status'
 {EventEmitter} = require 'events'
 Updater = require './updater'
-# LocalhostProxy = require './localhost-proxy'
 bus = require('./event-bus')()
 Notifier = require './notifier'
 atomHelper = require './atom-helper'
@@ -44,7 +43,6 @@ module.exports =
     @activateStatusView(state)
     @activateEventHandlers()
     @activateSubscriptions()
-    # @activateLocalhostProxy()
     @activateNotifier()
     @activateUpdater()
 
@@ -111,10 +109,6 @@ module.exports =
       localStorage.delete('learnOpenLabOnActivation')
       @termView.openLab(openPath)
 
-
-  activateLocalhostProxy: ->
-    # @localhostProxy = new LocalhostProxy(@vmPort)
-    # @localhostProxy.activate()
 
   activateNotifier: ->
     @notifier = new Notifier(@oauthToken)
