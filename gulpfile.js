@@ -58,6 +58,13 @@ gulp.task('sleep', function(done) {
 })
 
 gulp.task('inject-packages', function() {
+  function rmPackage(name) {
+    var packageJSON = path.join(buildDir, 'package.json')
+    var packages = JSON.parse(fs.readFileSync(packageJSON))
+    delete packages.packageDependencies[name]
+    fs.writeFileSync(packageJSON, JSON.stringify(packages, null, '  '))
+  }
+
   function injectPackage(name, version) {
     var packageJSON = path.join(buildDir, 'package.json')
     var packages = JSON.parse(fs.readFileSync(packageJSON))
@@ -65,6 +72,7 @@ gulp.task('inject-packages', function() {
     fs.writeFileSync(packageJSON, JSON.stringify(packages, null, '  '))
   }
 
+  rmPackage('tree-view')
   injectPackage('learn-ide', '0.0.1')
   injectPackage('learn-ide-tree', '0.0.1')
 })
