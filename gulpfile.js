@@ -74,7 +74,7 @@ gulp.task('inject-packages', function() {
 
   rmPackage('tree-view')
   injectPackage('mastermind', '0.0.4')
-  injectPackage('mirage', '0.0.1')
+  injectPackage('mirage', '0.0.3')
 })
 
 gulp.task('build', function(done) {
