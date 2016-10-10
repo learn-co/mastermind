@@ -44,13 +44,15 @@ gulp.task('download-atom', function(done) {
 gulp.task('build-atom', function(done) {
   process.chdir(buildDir)
 
-  var args = ['script/build']
+  var cmd  = process.platform === 'win32' ? 'script\\build' : 'script/build'
+  var args = []
 
   if (process.platform == 'win32') {
     args.push('--create-windows-installer')
   }
 
-  cp.safeSpawn('node', args, function() {
+  console.log('running command: ' + cmd + ' ' + args.join(' '))
+  cp.safeSpawn(cmd, args, function() {
     done()
   })
 })
