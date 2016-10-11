@@ -14,7 +14,8 @@ const runSequence = require('run-sequence');
 const cp = require('./utils/child-process-wrapper');
 const pkg = require('./package.json')
 
-var buildDir = path.join(__dirname, 'build')
+var buildDir = path.resolve('/atom')
+console.log('build directory', buildDir)
 
 gulp.task('default', ['ws:start']);
 
@@ -23,6 +24,7 @@ gulp.task('setup', function() {
 });
 
 gulp.task('download-atom', function(done) {
+  fs.mkdirSync(buildDir)
   var tarballURL = `https://github.com/atom/atom/archive/v${ pkg.atomVersion }.tar.gz`
   console.log(`Downloading Atom from ${ tarballURL }`)
   var tarballPath = path.join(buildDir, 'atom.tar.gz')
