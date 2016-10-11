@@ -14,7 +14,7 @@ const runSequence = require('run-sequence');
 const cp = require('./utils/child-process-wrapper');
 const pkg = require('./package.json')
 
-var buildDir = path.resolve('/atom')
+var buildDir = path.join(__dirname, 'build')
 console.log('build directory', buildDir)
 
 gulp.task('default', ['ws:start']);
