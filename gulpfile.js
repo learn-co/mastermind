@@ -24,9 +24,6 @@ gulp.task('setup', function() {
 });
 
 gulp.task('download-atom', function(done) {
-  del.sync([buildDir + '**/*'])
-  fs.rmdirSync(buildDir)
-  fs.mkdirSync(buildDir)
   var tarballURL = `https://github.com/atom/atom/archive/v${ pkg.atomVersion }.tar.gz`
   console.log(`Downloading Atom from ${ tarballURL }`)
   var tarballPath = path.join(buildDir, 'atom.tar.gz')
