@@ -50,6 +50,8 @@ gulp.task('build-atom', function(done) {
 
   if (process.platform == 'win32') {
     args.push('--create-windows-installer')
+  } else {
+    args.push('--compress-artifacts')
   }
 
   console.log('running command: ' + cmd + ' ' + args.join(' '))
@@ -82,32 +84,13 @@ gulp.task('inject-packages', function() {
   }
 
   rmPackage('tree-view')
-  injectPackage('mastermind', '0.0.5')
+  injectPackage('mastermind', '0.0.6')
   injectPackage('learn-ide-tree', '1.0.1')
 })
 
 gulp.task('build', function(done) {
   runSequence('reset', 'download-atom', 'inject-packages', 'build-atom', done)
 })
-
-gulp.task('clone', function() {
-  log('Cloning down all Learn IDE repositories...');
-  var repos = [
-    'flatiron-labs/students-chef-repo',
-    'flatiron-labs/go_terminal_server',
-    'flatiron-labs/fs_server',
-    'flatiron-labs/learn-ide-mac-packager',
-    'flatiron-labs/learn-ide-windows-packager',
-    'learn-co/tree-view',
-    'flatiron-labs/atom-ile'
-  ];
-
-  _.map(repos, function(repo) {
-    var name = _.last(repo.split('/'));
-    var cmd = 'git clone git@github.com:' + repo + '.git --progress ../' + name;
-    exec(cmd, {name: name, async: true});
-  })
-});
 
 gulp.task('ws:start', function(done) {
   var conn = new Client();
