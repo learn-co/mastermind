@@ -29,6 +29,13 @@ Those two packages include a couple important libraries:
 6. `gulp` - This will connect to our dev websocketd server (hosting the terminal and fs server) start up the daemon on the port specified in `.env` (should be added after running `gulp setup` above)
 7. Open the Learn IDE
 
+## Building the App
+
+For the most part, we rely on Atom's own build steps to build the Learn IDE. We download the Atom version specified as `atomVersion` in `package.json` and right before we build it, we inject our own Learn IDE packages into Atom's `package.json` and change some references to Atom to Learn IDE.
+
+- `gulp build` - Build the app
+- `gulp sign` - Sign it. You will need our `.p12` private key in your keychain in order to do this. See [this article](http://certhelp.ksoftware.net/support/solutions/articles/18835-how-do-i-sign-files-on-mac-osx-) for guidance.
+
 ## Gulp Tasks
 
 - `gulp` - Default task of `gulp ws:start`

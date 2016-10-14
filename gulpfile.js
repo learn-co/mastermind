@@ -84,12 +84,17 @@ gulp.task('inject-packages', function() {
   }
 
   rmPackage('tree-view')
-  injectPackage('mastermind', '0.0.6')
+  injectPackage('mastermind', '0.0.7')
   injectPackage('learn-ide-tree', '1.0.1')
 })
 
 gulp.task('build', function(done) {
   runSequence('reset', 'download-atom', 'inject-packages', 'build-atom', done)
+})
+
+gulp.task('sign', function() {
+  var appDir = path.join(buildDir, 'out', 'Atom.app')
+  exec(`codesign -s "Flatiron School" "${appDir}"`)
 })
 
 gulp.task('ws:start', function(done) {
