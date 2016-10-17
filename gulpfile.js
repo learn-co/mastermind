@@ -94,7 +94,7 @@ gulp.task('inject-packages', function() {
   }
 
   rmPackage('tree-view')
-  injectPackage('mastermind', '0.0.8')
+  injectPackage('mastermind', '2.0.0-beta0')
   injectPackage('learn-ide-tree', '1.0.1')
 })
 
