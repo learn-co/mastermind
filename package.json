@@ -1,5 +1,5 @@
 {
-  "name": "mastermind",
+  "name": "learn-ide",
   "main": "./lib/learn-ide",
   "urlMain": "./lib/url-handler",
   "version": "2.0.0-beta0",
@@ -9,8 +9,8 @@
     "start": "./node_modules/gulp/bin/gulp.js"
   },
   "keywords": [],
-  "repository": "https://github.com/learn-co/mastermind",
-  "license": "MIT",
+  "repository": "https://github.com/learn-co/learn-ide",
+  "license": "pending",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
