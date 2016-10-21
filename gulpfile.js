@@ -94,7 +94,7 @@ gulp.task('inject-packages', function() {
   }
 
   rmPackage('tree-view')
-  injectPackage('mastermind', '0.0.5')
+  injectPackage('mastermind', '2.0.0-beta0')
   injectPackage('learn-ide-tree', '1.0.1')
 })
 
@@ -150,6 +150,19 @@ gulp.task('rename-app', function() {
   ]);
 })
 
+gulp.task('update-package-json', function() {
+  var packageJSON = path.join(buildDir, 'package.json')
+  var atomPkg = JSON.parse(fs.readFileSync(packageJSON))
+  var learnPkg = require('./package.json')
+
+  atomPkg.name = 'learn-ide'
+  atomPkg.productName = 'Learn IDE'
+  atomPkg.version = learnPkg.version
+  atomPkg.description = learnPkg.description
+
+  fs.writeFileSync(packageJSON, JSON.stringify(atomPkg, null, '  '))
+})
+
 gulp.task('build', function(done) {
   runSequence(
     'reset',
@@ -158,6 +171,7 @@ gulp.task('build', function(done) {
     'replace-app-icons',
     'replace-code-sign',
     'rename-app',
+    'update-package-json',
     'build-atom',
     done
   )
