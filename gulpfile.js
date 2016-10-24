@@ -177,6 +177,18 @@ gulp.task('build', function(done) {
   )
 })
 
+gulp.task('after-download', function(done) {
+  runSequence(
+    'inject-packages',
+    'replace-app-icons',
+    'replace-code-sign',
+    'rename-app',
+    'update-package-json',
+    'build-atom',
+    done
+  )
+})
+
 gulp.task('ws:start', function(done) {
   var conn = new Client();
   var host = process.env.IDE_WS_HOST || 'vm02.students.learn.co';
