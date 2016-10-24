@@ -94,8 +94,8 @@ gulp.task('inject-packages', function() {
   }
 
   rmPackage('tree-view')
-  injectPackage('mastermind', '2.0.0-beta0')
-  injectPackage('learn-ide-tree', '1.0.1')
+  injectPackage('mastermind', '2.0.0-beta1')
+  injectPackage('learn-ide-tree', '1.0.2')
 })
 
 gulp.task('replace-app-icons', function() {
