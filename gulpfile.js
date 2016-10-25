@@ -128,7 +128,7 @@ gulp.task('rename-app', function() {
     [/'Atom Beta' : 'Atom'/g, "'Atom Beta' : 'Learn IDE'"],
     [/return 'atom'/, "return 'learn-ide'"]
   ];
--
+
   if (process.platform == 'win32') {
     pkgAppReplacements.push([/'atom-beta' : 'atom'/g, "'atom-beta' : 'learnide'"]);
   } else {
