@@ -162,7 +162,7 @@ gulp.task('update-package-json', function() {
   var atomPkg = JSON.parse(fs.readFileSync(packageJSON))
   var learnPkg = require('./package.json')
 
-  atomPkg.name = 'learn-ide'
+  atomPkg.name = process.platform == 'win32' ? 'learnide' : 'learn-ide'
   atomPkg.productName = 'Learn IDE'
   atomPkg.version = learnPkg.version
   atomPkg.description = learnPkg.description
