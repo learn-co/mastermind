@@ -123,16 +123,19 @@ gulp.task('rename-app', function() {
     fs.writeFileSync(filepath, data)
   }
 
-  // replaceInFile(path.join(buildDir, 'atom.sh'), [
-  //   [/Atom\.app/g, 'Learn IDE.app'],
-  //   [/\/share\/atom\/atom/g, '/share/learn-ide/atom']
-  // ]);
-
-  replaceInFile(path.join(buildDir, 'script', 'lib', 'package-application.js'), [
+  var packageApplication = path.join(buildDir, 'script', 'lib', 'package-application.js');
+  var pkgAppReplacements = [
     [/'Atom Beta' : 'Atom'/g, "'Atom Beta' : 'Learn IDE'"],
-    [/'atom-beta' : 'atom'/g, "'atom-beta' : 'learn-ide'"],
     [/return 'atom'/, "return 'learn-ide'"]
-  ]);
+  ];
+-
+  if (process.platform == 'win32') {
+    pkgAppReplacements.push([/'atom-beta' : 'atom'/g, "'atom-beta' : 'learnide'"]);
+  } else {
+    pkgAppReplacements.push([/'atom-beta' : 'atom'/g, "'atom-beta' : 'learn-ide'"]);
+  }
+
+  replaceInFile(packageApplication, pkgAppReplacements);
 
   replaceInFile(path.join(buildDir, 'script', 'lib', 'compress-artifacts.js'), [
     [/atom-/g, 'learn-ide-']
@@ -149,6 +152,7 @@ gulp.task('rename-app', function() {
     ]
   ]);
 })
+
 
 gulp.task('update-package-json', function() {
   var packageJSON = path.join(buildDir, 'package.json')
