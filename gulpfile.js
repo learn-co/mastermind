@@ -124,15 +124,18 @@ gulp.task('rename-app', function() {
   }
 
   var packageApplication = path.join(buildDir, 'script', 'lib', 'package-application.js');
-  var pkgAppReplacements = [
-    [/'Atom Beta' : 'Atom'/g, "'Atom Beta' : 'Learn IDE'"],
-    [/return 'atom'/, "return 'learn-ide'"]
-  ];
+  var pkgAppReplacements = [ [/'Atom Beta' : 'Atom'/g, "'Atom Beta' : 'Learn IDE'"] ];
 
   if (process.platform == 'win32') {
-    pkgAppReplacements.push([/'atom-beta' : 'atom'/g, "'atom-beta' : 'learnide'"]);
+    pkgAppReplacements.push(
+      [/return 'atom'/, "return 'learnide'"],
+      [/'atom-beta' : 'atom'/g, "'atom-beta' : 'learnide'"]
+    );
   } else {
-    pkgAppReplacements.push([/'atom-beta' : 'atom'/g, "'atom-beta' : 'learn-ide'"]);
+    pkgAppReplacements.push(
+      [/return 'atom'/, "return 'learn-ide'"],
+      [/'atom-beta' : 'atom'/g, "'atom-beta' : 'learn-ide'"]
+    );
   }
 
   replaceInFile(packageApplication, pkgAppReplacements);
