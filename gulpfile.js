@@ -156,7 +156,6 @@ gulp.task('rename-app', function() {
   ]);
 })
 
-
 gulp.task('update-package-json', function() {
   var packageJSON = path.join(buildDir, 'package.json')
   var atomPkg = JSON.parse(fs.readFileSync(packageJSON))
@@ -174,24 +173,19 @@ gulp.task('build', function(done) {
   runSequence(
     'reset',
     'download-atom',
-    'inject-packages',
-    'replace-app-icons',
-    'replace-code-sign',
-    'rename-app',
-    'update-package-json',
+    'prep-build',
     'build-atom',
     done
   )
 })
 
-gulp.task('after-download', function(done) {
+gulp.task('prep-build', function(done) {
   runSequence(
     'inject-packages',
     'replace-app-icons',
     'replace-code-sign',
     'rename-app',
     'update-package-json',
-    'build-atom',
     done
   )
 })
