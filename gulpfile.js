@@ -51,6 +51,7 @@ gulp.task('build-atom', function(done) {
   switch (process.platform) {
     case 'win32':
       args.push('--create-windows-installer');
+      args.push('--compress-artifacts');
       args.push('--code-sign');
       break;
 
