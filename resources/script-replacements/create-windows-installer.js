@@ -19,7 +19,8 @@ module.exports = function (packagedAppPath, codeSign) {
     loadingGif: path.join(CONFIG.repositoryRootPath, 'resources', 'win', 'loading.gif'),
     outputDirectory: CONFIG.buildOutputPath,
     remoteReleases: `https://atom.io/api/updates?version=${CONFIG.appMetadata.version}`,
-    setupIcon: path.join(CONFIG.repositoryRootPath, 'resources', 'app-icons', CONFIG.channel, 'atom.ico')
+    setupIcon: path.join(CONFIG.repositoryRootPath, 'resources', 'app-icons', CONFIG.channel, 'atom.ico'),
+    setupExe: 'LearnIDE'
   }
 
   const certPath = process.env.FLATIRON_P12KEY_PATH
