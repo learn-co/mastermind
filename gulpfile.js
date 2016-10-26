@@ -110,8 +110,8 @@ gulp.task('replace-app-icons', function() {
   gulp.src([loadingSrc]).pipe(gulp.dest(loadingDest));
 })
 
-gulp.task('replace-code-sign', function() {
-  var src = 'resources/code-sign-on-mac.js';
+gulp.task('replace-scripts', function() {
+  var src = path.join('resources', 'script-replacements', '**', '*');
   var dest = path.join(buildDir, 'script', 'lib')
 
   gulp.src([src]).pipe(gulp.dest(dest));
@@ -147,13 +147,6 @@ gulp.task('rename-app', function() {
 
   replaceInFile(path.join(buildDir, 'script', 'lib', 'compress-artifacts.js'), [
     [/atom-/g, 'learn-ide-']
-  ]);
-
-  replaceInFile(path.join(buildDir, 'script', 'lib', 'create-windows-installer.js'), [
-    [
-      'https://raw.githubusercontent.com/atom/atom/master/resources/app-icons/${CONFIG.channel}/atom.ico',
-      'https://raw.githubusercontent.com/learn-co/mastermind/master/resources/app-icons/atom.ico'
-    ]
   ]);
 
   replaceInFile(path.join(buildDir, 'src', 'main-process', 'atom-application.coffee'), [
@@ -195,7 +188,7 @@ gulp.task('prep-build', function(done) {
   runSequence(
     'inject-packages',
     'replace-app-icons',
-    'replace-code-sign',
+    'replace-scripts',
     'rename-app',
     'update-package-json',
     done
