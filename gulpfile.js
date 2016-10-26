@@ -45,7 +45,7 @@ gulp.task('download-atom', function(done) {
 gulp.task('build-atom', function(done) {
   process.chdir(buildDir)
 
-  var cmd  = process.platform === 'win32' ? 'script\\build' : 'script/build'
+  var cmd  = path.join(buildDir, 'script', 'build')
   var args = []
 
   switch (process.platform) {
