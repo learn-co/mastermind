@@ -149,7 +149,7 @@ gulp.task('rename-app', function() {
     [/atom-/g, 'learn-ide-']
   ]);
 
-  replaceInFile(path.join(buildDir, 'script', 'lib', 'create-windows-installer.js'). [
+  replaceInFile(path.join(buildDir, 'script', 'lib', 'create-windows-installer.js'), [
     [
       'https://raw.githubusercontent.com/atom/atom/master/resources/app-icons/${CONFIG.channel}/atom.ico',
       'https://raw.githubusercontent.com/learn-co/mastermind/master/resources/app-icons/atom.ico'
