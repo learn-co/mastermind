@@ -32,11 +32,6 @@ module.exports = function (packagedAppPath, codeSign) {
   }
 
   const cleanUp = function () {
-    if (fs.existsSync(certPath)) {
-      console.log(`Deleting certificate at ${certPath}`)
-      fs.removeSync(certPath)
-    }
-
     for (let nupkgPath of glob.sync(`${CONFIG.buildOutputPath}/*.nupkg`)) {
       if (!nupkgPath.includes(CONFIG.appMetadata.version)) {
         console.log(`Deleting downloaded nupkg for previous version at ${nupkgPath} to prevent it from being stored as an artifact`)
