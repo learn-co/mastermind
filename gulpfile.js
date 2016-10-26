@@ -65,6 +65,11 @@ gulp.task('build-atom', function(done) {
       break;
   }
 
+  if (process.platform == 'win32') {
+    args = ['/s', '/c', cmd].concat(args);
+    cmd = 'cmd';
+  }
+
   console.log('running command: ' + cmd + ' ' + args.join(' '))
   cp.safeSpawn(cmd, args, function() {
     done()
