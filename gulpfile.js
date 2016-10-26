@@ -99,10 +99,15 @@ gulp.task('inject-packages', function() {
 })
 
 gulp.task('replace-app-icons', function() {
-  var src = 'resources/app-icons/**/*';
-  var dest = path.join(buildDir, 'resources', 'app-icons', 'stable')
+  var iconSrc = path.join('resources', 'app-icons', '**', '*');
+  var iconDest = path.join(buildDir, 'resources', 'app-icons', 'stable')
 
-  gulp.src([src]).pipe(gulp.dest(dest));
+  gulp.src([iconSrc]).pipe(gulp.dest(iconDest));
+
+  var loadingSrc = path.join('resources', 'win', '**', '*');
+  var loadingDest = path.join(buildDir, 'resources', 'win');
+
+  gulp.src([loadingSrc]).pipe(gulp.dest(loadingDest));
 })
 
 gulp.task('replace-code-sign', function() {
@@ -142,6 +147,13 @@ gulp.task('rename-app', function() {
 
   replaceInFile(path.join(buildDir, 'script', 'lib', 'compress-artifacts.js'), [
     [/atom-/g, 'learn-ide-']
+  ]);
+
+  replaceInFile(path.join(buildDir, 'script', 'lib', 'create-windows-installer.js'). [
+    [
+      'https://raw.githubusercontent.com/atom/atom/master/resources/app-icons/${CONFIG.channel}/atom.ico',
+      'https://raw.githubusercontent.com/learn-co/mastermind/master/resources/app-icons/atom.ico'
+    ]
   ]);
 
   replaceInFile(path.join(buildDir, 'src', 'main-process', 'atom-application.coffee'), [
