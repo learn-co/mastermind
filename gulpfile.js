@@ -135,7 +135,7 @@ gulp.task('rename-app', function() {
   }
 
   var packageApplication = path.join(buildDir, 'script', 'lib', 'package-application.js');
-  var pkgAppReplacements = [ [/'Atom Beta' : 'Atom'/g, "'Atom Beta' : 'Learn IDE'"] ];
+  var pkgAppReplacements = [ [/'Atom Beta' : 'Atom'/g, "'Atom Beta' : 'LearnIDE'"] ];
 
   if (process.platform == 'win32') {
     pkgAppReplacements.push(
@@ -173,7 +173,7 @@ gulp.task('update-package-json', function() {
   var learnPkg = require('./package.json')
 
   atomPkg.name = process.platform == 'win32' ? 'learnide' : 'learn-ide'
-  atomPkg.productName = 'Learn IDE'
+  atomPkg.productName = 'LearnIDE'
   atomPkg.version = learnPkg.version
   atomPkg.description = learnPkg.description
 
