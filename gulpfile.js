@@ -17,6 +17,15 @@ const pkg = require('./package.json')
 var buildDir = path.join(__dirname, 'build')
 console.log('build directory', buildDir)
 
+function executableName() {
+  if (process.platform == 'win32') { return 'learnide'; }
+  return 'learn-ide';
+}
+
+function productName() {
+  return 'Learn IDE';
+}
+
 gulp.task('default', ['ws:start']);
 
 gulp.task('setup', function() {
@@ -51,7 +60,6 @@ gulp.task('build-atom', function(done) {
   switch (process.platform) {
     case 'win32':
       args.push('--create-windows-installer');
-      args.push('--code-sign');
       break;
 
     case 'darwin':
@@ -104,7 +112,7 @@ gulp.task('inject-packages', function() {
   injectPackage('learn-ide-tree', '1.0.3')
 })
 
-gulp.task('replace-app-icons', function() {
+gulp.task('replace-files', function() {
   var iconSrc = path.join('resources', 'app-icons', '**', '*');
   var iconDest = path.join(buildDir, 'resources', 'app-icons', 'stable')
 
@@ -114,16 +122,14 @@ gulp.task('replace-app-icons', function() {
   var loadingDest = path.join(buildDir, 'resources', 'win');
 
   gulp.src([loadingSrc]).pipe(gulp.dest(loadingDest));
+
+  var scriptSrc = path.join('resources', 'script-replacements', '**', '*');
+  var scriptDest = path.join(buildDir, 'script', 'lib')
+
+  gulp.src([scriptSrc]).pipe(gulp.dest(scriptDest));
 })
 
-gulp.task('replace-scripts', function() {
-  var src = path.join('resources', 'script-replacements', '**', '*');
-  var dest = path.join(buildDir, 'script', 'lib')
-
-  gulp.src([src]).pipe(gulp.dest(dest));
-})
-
-gulp.task('rename-app', function() {
+gulp.task('alter-files', function() {
   function replaceInFile(filepath, replaceArgs) {
     var data = fs.readFileSync(filepath, 'utf8');
 
@@ -134,35 +140,31 @@ gulp.task('rename-app', function() {
     fs.writeFileSync(filepath, data)
   }
 
-  var packageApplication = path.join(buildDir, 'script', 'lib', 'package-application.js');
-  var pkgAppReplacements = [ [/'Atom Beta' : 'Atom'/g, "'Atom Beta' : 'LearnIDE'"] ];
+  replaceInFile(path.join(buildDir, 'script', 'lib', 'create-windows-installer.js'), [
+    [
+      'https://raw.githubusercontent.com/atom/atom/master/resources/app-icons/${CONFIG.channel}/atom.ico',
+      'https://raw.githubusercontent.com/learn-co/mastermind/master/resources/app-icons/atom.ico'
+    ]
+  ])
 
-  if (process.platform == 'win32') {
-    pkgAppReplacements.push(
-      [/return 'atom'/, "return 'learnide'"],
-      [/'atom-beta' : 'atom'/g, "'atom-beta' : 'learnide'"]
-    );
-  } else {
-    pkgAppReplacements.push(
-      [/return 'atom'/, "return 'learn-ide'"],
-      [/'atom-beta' : 'atom'/g, "'atom-beta' : 'learn-ide'"]
-    );
-  }
-
-  replaceInFile(packageApplication, pkgAppReplacements);
+  replaceInFile(path.join(buildDir, 'script', 'lib', 'package-application.js'), [
+    [/'Atom Beta' : 'Atom'/g, "'Atom Beta' : '" + productName() + "'"],
+    [/return 'atom'/, "return '" + executableName() + "'"],
+    [/'atom-beta' : 'atom'/g, "'atom-beta' : '" + executableName() + "'"]
+  ]);
 
   replaceInFile(path.join(buildDir, 'script', 'lib', 'compress-artifacts.js'), [
-    [/atom-/g, 'learn-ide-']
+    [/atom-/g, executableName() + '-']
   ]);
 
   replaceInFile(path.join(buildDir, 'src', 'main-process', 'atom-application.coffee'), [
     [
       'options.socketPath = "\\\\.\\pipe\\atom-#{options.version}-#{userNameSafe}-sock"',
-      'options.socketPath = "\\\\.\\pipe\\learn-ide-#{options.version}-#{userNameSafe}-sock"',
+      'options.socketPath = "\\\\.\\pipe\\' + executableName() + '-#{options.version}-#{userNameSafe}-sock"',
     ],
     [
       'options.socketPath = path.join(os.tmpdir(), "atom-#{options.version}-#{process.env.USER}.sock")',
-      'options.socketPath = path.join(os.tmpdir(), "learn-ide-#{options.version}-#{process.env.USER}.sock")'
+      'options.socketPath = path.join(os.tmpdir(), "' + executableName() + '-#{options.version}-#{process.env.USER}.sock")'
     ]
   ]);
 })
@@ -172,12 +174,44 @@ gulp.task('update-package-json', function() {
   var atomPkg = JSON.parse(fs.readFileSync(packageJSON))
   var learnPkg = require('./package.json')
 
-  atomPkg.name = process.platform == 'win32' ? 'learnide' : 'learn-ide'
-  atomPkg.productName = 'LearnIDE'
+  atomPkg.name = executableName()
+  atomPkg.productName = productName()
   atomPkg.version = learnPkg.version
   atomPkg.description = learnPkg.description
 
   fs.writeFileSync(packageJSON, JSON.stringify(atomPkg, null, '  '))
+})
+
+gulp.task('rename-installer', function() {
+  var src = path.join(buildDir, 'out', 'Learn IDESetup.exe');
+  var des = path.join(buildDir, 'out', 'Learn IDE Setup.exe');
+
+  fs.rename(src, des, function (err) {
+    if (err) {
+      return console.log('Ecountered err: ', err.message)
+    }
+  })
+})
+
+gulp.task('sign-installer', function() {
+  var installer = path.join(buildDir, 'out', 'Learn IDE Setup.exe');
+  var signtool = path.join(buildDir, 'script', 'node_modules', 'electron-winstaller', 'vendor', 'signtool.exe')
+  var certPath = process.env.FLATIRON_P12KEY_PATH;
+  var password = process.env.FLATIRON_P12KEY_PASSWORD;
+
+  args = ['/s', '/c', signtool, 'sign', '/a', '/f', certPath, '/p', password, installer]
+
+  cp.safeSpawn('cmd', args, function() {
+    done()
+  })
+})
+
+gulp.task('finalize-windows', function(done) {
+  if (process.platform != 'win32') {
+    return console.log('Skipping Windows tasks')
+  }
+
+  runSequence('rename-installer', 'sign-installer', done)
 })
 
 gulp.task('build', function(done) {
@@ -186,6 +220,7 @@ gulp.task('build', function(done) {
     'download-atom',
     'prep-build',
     'build-atom',
+    'finalize-windows',
     done
   )
 })
@@ -193,9 +228,8 @@ gulp.task('build', function(done) {
 gulp.task('prep-build', function(done) {
   runSequence(
     'inject-packages',
-    'replace-app-icons',
-    'replace-scripts',
-    'rename-app',
+    'replace-files',
+    'alter-files',
     'update-package-json',
     done
   )
