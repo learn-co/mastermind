@@ -17,6 +17,8 @@ const pkg = require('./package.json')
 var buildDir = path.join(__dirname, 'build')
 console.log('build directory', buildDir)
 
+var windowsInstallerName = 'LearnIDESetup.exe';
+
 function executableName() {
   if (process.platform == 'win32') { return 'learnide'; }
   return 'learn-ide';
@@ -184,7 +186,7 @@ gulp.task('update-package-json', function() {
 
 gulp.task('rename-installer', function(done) {
   var src = path.join(buildDir, 'out', 'Learn IDESetup.exe');
-  var des = path.join(buildDir, 'out', 'LearnIDESetup.exe');
+  var des = path.join(buildDir, 'out', windowsInstallerName);
 
   fs.rename(src, des, function (err) {
     if (err) {
@@ -196,7 +198,7 @@ gulp.task('rename-installer', function(done) {
 })
 
 gulp.task('sign-installer', function() {
-  var installer = path.join(buildDir, 'out', 'Learn IDE Setup.exe');
+  var installer = path.join(buildDir, 'out', windowsInstallerName);
   var signtool = path.join(buildDir, 'script', 'node_modules', 'electron-winstaller', 'vendor', 'signtool.exe')
   var certPath = process.env.FLATIRON_P12KEY_PATH;
   var password = process.env.FLATIRON_P12KEY_PASSWORD;
@@ -206,8 +208,10 @@ gulp.task('sign-installer', function() {
     return
   }
 
+  function esc(path) { return "'" + path + "'" }
+
   cmd = 'cmd'
-  args = ['/s', '/c', signtool, 'sign', '/a', '/f', certPath, '/p', "'" + password + "'", installer]
+  args = ['/s', '/c', esc(signtool), 'sign', '/a', '/f', esc(certPath), '/p', esc(password), esc(installer)]
 
   console.log('running command: ' + cmd + ' ' + args.join(' '))
   cp.safeSpawn(cmd, args, function() {
@@ -215,9 +219,9 @@ gulp.task('sign-installer', function() {
   })
 })
 
-gulp.task('finalize-windows', function(done) {
+gulp.task('complete-windows', function(done) {
   if (process.platform != 'win32') {
-    console.log('Skipping Windows tasks')
+    console.log('Skipping Windows specific tasks')
     return
   }
 
@@ -230,7 +234,7 @@ gulp.task('build', function(done) {
     'download-atom',
     'prep-build',
     'build-atom',
-    'finalize-windows',
+    'complete-windows',
     done
   )
 })
