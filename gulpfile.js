@@ -207,8 +207,8 @@ gulp.task('sign-installer', function() {
   cmd = 'cmd'
   args = ['/s', '/c', signtool, 'sign', '/a', '/f', certPath, '/p', password, installer]
 
+  console.log('running command: ' + cmd + ' ' + args.join(' '))
   cp.safeSpawn(cmd, args, function() {
-    console.log('running command: ' + cmd + ' ' + args.join(' '))
     done()
   })
 })
