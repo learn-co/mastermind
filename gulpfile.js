@@ -54,7 +54,7 @@ gulp.task('download-atom', function(done) {
 gulp.task('build-atom', function(done) {
   process.chdir(buildDir)
 
-  var cmd  = path.join(buildDir, 'script', 'build')
+  var cmd  = process.platform === 'win32' ? 'script\\build' : 'script/build'
   var args = []
 
   switch (process.platform) {
@@ -71,11 +71,6 @@ gulp.task('build-atom', function(done) {
       args.push('--create-rpm-package');
       args.push('--create-debian-package');
       break;
-  }
-
-  if (process.platform == 'win32') {
-    args = ['/s', '/c', cmd].concat(args);
-    cmd = 'cmd';
   }
 
   console.log('running command: ' + cmd + ' ' + args.join(' '))
@@ -108,8 +103,8 @@ gulp.task('inject-packages', function() {
   }
 
   rmPackage('tree-view')
-  injectPackage('mastermind', '2.0.3')
-  injectPackage('learn-ide-tree', '1.0.3')
+  injectPackage('mastermind', '0.0.5')
+  injectPackage('learn-ide-tree', '1.0.1')
 })
 
 gulp.task('replace-files', function() {
