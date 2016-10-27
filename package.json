@@ -2,7 +2,7 @@
   "name": "mastermind",
   "main": "./lib/learn-ide",
   "urlMain": "./lib/url-handler",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "atomVersion": "1.11.1",
   "description": "An integrated development environment for use with Learn.co",
   "scripts": {
@@ -32,7 +32,7 @@
     "page-bus": "3.0.1",
     "rimraf": "2.1",
     "rmdir": "1.2.0",
-    "single-socket": "0.0.6",
+    "single-socket": "0.0.7",
     "learn-term.js": "0.0.7",
     "underscore-plus": "1.6.6",
     "utf8": "2.1.1"

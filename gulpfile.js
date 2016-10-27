@@ -45,13 +45,12 @@ gulp.task('download-atom', function(done) {
 gulp.task('build-atom', function(done) {
   process.chdir(buildDir)
 
-  var cmd  = path.join(buildDir, 'script', 'build')
+  var cmd  = process.platform === 'win32' ? 'script\\build' : 'script/build'
   var args = []
 
   switch (process.platform) {
     case 'win32':
       args.push('--create-windows-installer');
-      args.push('--code-sign');
       break;
 
     case 'darwin':
@@ -63,11 +62,6 @@ gulp.task('build-atom', function(done) {
       args.push('--create-rpm-package');
       args.push('--create-debian-package');
       break;
-  }
-
-  if (process.platform == 'win32') {
-    args = ['/s', '/c', cmd].concat(args);
-    cmd = 'cmd';
   }
 
   console.log('running command: ' + cmd + ' ' + args.join(' '))
@@ -100,8 +94,8 @@ gulp.task('inject-packages', function() {
   }
 
   rmPackage('tree-view')
-  injectPackage('mastermind', '2.0.3')
-  injectPackage('learn-ide-tree', '1.0.3')
+  injectPackage('mastermind', '0.0.5')
+  injectPackage('learn-ide-tree', '1.0.1')
 })
 
 gulp.task('replace-app-icons', function() {
@@ -116,8 +110,8 @@ gulp.task('replace-app-icons', function() {
   gulp.src([loadingSrc]).pipe(gulp.dest(loadingDest));
 })
 
-gulp.task('replace-scripts', function() {
-  var src = path.join('resources', 'script-replacements', '**', '*');
+gulp.task('replace-code-sign', function() {
+  var src = 'resources/code-sign-on-mac.js';
   var dest = path.join(buildDir, 'script', 'lib')
 
   gulp.src([src]).pipe(gulp.dest(dest));
@@ -135,7 +129,7 @@ gulp.task('rename-app', function() {
   }
 
   var packageApplication = path.join(buildDir, 'script', 'lib', 'package-application.js');
-  var pkgAppReplacements = [ [/'Atom Beta' : 'Atom'/g, "'Atom Beta' : 'LearnIDE'"] ];
+  var pkgAppReplacements = [ [/'Atom Beta' : 'Atom'/g, "'Atom Beta' : 'Learn IDE'"] ];
 
   if (process.platform == 'win32') {
     pkgAppReplacements.push(
@@ -173,7 +167,7 @@ gulp.task('update-package-json', function() {
   var learnPkg = require('./package.json')
 
   atomPkg.name = process.platform == 'win32' ? 'learnide' : 'learn-ide'
-  atomPkg.productName = 'LearnIDE'
+  atomPkg.productName = 'Learn IDE'
   atomPkg.version = learnPkg.version
   atomPkg.description = learnPkg.description
 
@@ -194,7 +188,7 @@ gulp.task('prep-build', function(done) {
   runSequence(
     'inject-packages',
     'replace-app-icons',
-    'replace-scripts',
+    'replace-code-sign',
     'rename-app',
     'update-package-json',
     done

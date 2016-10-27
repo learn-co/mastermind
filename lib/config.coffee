@@ -10,7 +10,7 @@ module.exports = _.defaults
   port: process.env['IDE_WS_PORT']
   path: process.env['IDE_WS_PATH']
 ,
-  host: '159.203.101.28'
-  port: 8080
+  host: 'ile.learn.co'
+  port: 443
   path: 'v2/terminal'
 
