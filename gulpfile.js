@@ -111,7 +111,7 @@ gulp.task('inject-packages', function() {
 
   var pkg = require('./package.json')
   rmPackage('tree-view')
-  injectPackage('learn-ide', pkg.version)
+  injectPackage('mastermind', pkg.version)
   injectPackage('learn-ide-tree', pkg.treeVersion)
 })
 
