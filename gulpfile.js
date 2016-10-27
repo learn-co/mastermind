@@ -182,14 +182,16 @@ gulp.task('update-package-json', function() {
   fs.writeFileSync(packageJSON, JSON.stringify(atomPkg, null, '  '))
 })
 
-gulp.task('rename-installer', function() {
+gulp.task('rename-installer', function(done) {
   var src = path.join(buildDir, 'out', 'Learn IDESetup.exe');
   var des = path.join(buildDir, 'out', 'LearnIDESetup.exe');
 
   fs.rename(src, des, function (err) {
     if (err) {
-      return console.log('error while renaming: ', err.message)
+      console.log('error while renaming: ', err.message)
     }
+
+    done()
   })
 })
 
@@ -205,7 +207,7 @@ gulp.task('sign-installer', function() {
   }
 
   cmd = 'cmd'
-  args = ['/s', '/c', signtool, 'sign', '/a', '/f', certPath, '/p', password, installer]
+  args = ['/s', '/c', signtool, 'sign', '/a', '/f', certPath, '/p', "'" + password + "'", installer]
 
   console.log('running command: ' + cmd + ' ' + args.join(' '))
   cp.safeSpawn(cmd, args, function() {
