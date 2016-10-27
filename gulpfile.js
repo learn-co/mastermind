@@ -184,11 +184,11 @@ gulp.task('update-package-json', function() {
 
 gulp.task('rename-installer', function() {
   var src = path.join(buildDir, 'out', 'Learn IDESetup.exe');
-  var des = path.join(buildDir, 'out', 'Learn IDE Setup.exe');
+  var des = path.join(buildDir, 'out', 'LearnIDESetup.exe');
 
   fs.rename(src, des, function (err) {
     if (err) {
-      return console.log('Ecountered err: ', err.message)
+      return console.log('error while renaming: ', err.message)
     }
   })
 })
@@ -199,16 +199,24 @@ gulp.task('sign-installer', function() {
   var certPath = process.env.FLATIRON_P12KEY_PATH;
   var password = process.env.FLATIRON_P12KEY_PASSWORD;
 
+  if (!certPath || !password) {
+    console.log('unable to sign installer, must provide FLATIRON_P12KEY_PATH and FLATIRON_P12KEY_PASSWORD environment variables')
+    return
+  }
+
+  cmd = 'cmd'
   args = ['/s', '/c', signtool, 'sign', '/a', '/f', certPath, '/p', password, installer]
 
-  cp.safeSpawn('cmd', args, function() {
+  cp.safeSpawn(cmd, args, function() {
+    console.log('running command: ' + cmd + ' ' + args.join(' '))
     done()
   })
 })
 
 gulp.task('finalize-windows', function(done) {
   if (process.platform != 'win32') {
-    return console.log('Skipping Windows tasks')
+    console.log('Skipping Windows tasks')
+    return
   }
 
   runSequence('rename-installer', 'sign-installer', done)
