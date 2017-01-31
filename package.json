@@ -1,10 +1,10 @@
 {
-  "name": "learn-ide",
+  "name": "mastermind",
   "version": "2.3.3",
   "atomVersion": "1.13.1",
   "main": "./lib/learn-ide",
   "urlMain": "./lib/url-handler",
-  "description": "An integrated development environment for Learn.co",
+  "description": "An development version of the integrated development environment for Learn.co",
   "scripts": {
     "start": "./node_modules/gulp/bin/gulp.js"
   },
