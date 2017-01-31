@@ -20,7 +20,7 @@ var buildDir = path.join(__dirname, 'build')
 console.log('build directory', buildDir)
 
 function productName() {
-  var name = 'Mastermind';
+  var name = 'The Mastermind';
 
   if (buildBeta) {
     name += ' Beta';
