@@ -97,13 +97,13 @@ module.exports =
       'learn-ide:update-check': -> updater.checkForUpdate()
       'learn-ide:about': => @about()
 
-    atom.config.onDidChange 'learn-ide.terminalFontColor', ({newValue}) =>
+    atom.config.onDidChange 'mastermind.terminalFontColor', ({newValue}) =>
       @termView.updateFontColor(newValue)
 
-    atom.config.onDidChange 'learn-ide.terminalBackgroundColor', ({newValue}) =>
+    atom.config.onDidChange 'mastermind.terminalBackgroundColor', ({newValue}) =>
       @termView.updateBackgroundColor(newValue)
 
-    atom.config.onDidChange 'learn-ide.notifier', ({newValue}) =>
+    atom.config.onDidChange 'mastermind.notifier', ({newValue}) =>
       if newValue then @activateNotifier() else @notifier.deactivate()
 
     openPath = localStorage.get('learnOpenLabOnActivation')
@@ -113,7 +113,7 @@ module.exports =
 
 
   activateNotifier: ->
-    if atom.config.get('learn-ide.notifier')
+    if atom.config.get('mastermind.notifier')
       @notifier = new Notifier(@token.get())
       @notifier.activate()
 
