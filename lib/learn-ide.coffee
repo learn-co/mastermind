@@ -19,6 +19,7 @@ module.exports =
   token: require('./token')
 
   activate: (state) ->
+    console.log 'THIS IS A NEW VERSION YO!'
     console.log 'activating learn ide'
     @checkForV1WindowsInstall()
     @registerWindowsProtocol()
