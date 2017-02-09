@@ -1,7 +1,7 @@
 'context-menu':
   'atom-text-editor': [
     {
-      'label': 'Toggle Learn IDE Terminal'
+      'label': 'Toggle Mastermind Terminal'
       'command': 'learn-ide:toggle-terminal'
     }
   ]
