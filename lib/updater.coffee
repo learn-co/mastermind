@@ -55,6 +55,7 @@ module.exports =
       @_afterUpdate(updateResult)
 
   _fetchLatestVersionData: ->
+    console.debug('LATEST_VERSION_URL:', LATEST_VERSION_URL)
     fetch(LATEST_VERSION_URL).then (@latestVersionData) =>
       return @latestVersionData
 
