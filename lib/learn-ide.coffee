@@ -21,6 +21,7 @@ module.exports =
   token: require('./token')
 
   activate: (state) ->
+    console.debug 'IDE_LEARN_CO:', config.learnCo
     console.log '🔥🔥🔥🔥🔥'
     console.log 'activating learn ide'
     @checkForV1WindowsInstall()
