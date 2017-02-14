@@ -22,6 +22,7 @@ module.exports =
 
   activate: (state) ->
     console.log 'activating learn ide'
+    console.log '🔥'
     @checkForV1WindowsInstall()
     @registerWindowsProtocol()
     @disableFormerPackage()
