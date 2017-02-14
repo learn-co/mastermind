@@ -1,6 +1,6 @@
 {
   "name": "mastermind",
-  "version": "2.4.14",
+  "version": "2.4.15",
   "atomVersion": "1.14.1",
   "main": "./lib/learn-ide",
   "urlMain": "./lib/url-handler",
